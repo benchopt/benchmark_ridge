@@ -3,8 +3,6 @@ import numpy as np
 from benchopt import BaseObjective
 
 
-def _compute_loss(diff, lmbd, beta):
-    return 0.5 * diff.dot(diff) + lmbd * 0.5 * beta @ beta
 
 
 class Objective(BaseObjective):
@@ -32,17 +30,20 @@ class Objective(BaseObjective):
 
     def compute(self, beta):
         # compute residuals
-        diff = self.y - self.X @ beta
+
+        if self.X_test is not None:
+            test_loss = self._compute_loss(
+                self.X_test, self.y_test, self.lmbd, beta
+            )
+        train_loss = self._compute_loss(self.X, self.y, self.lmbd, beta)
+        return {"value": train_loss, "Test loss": test_loss}
+
+    def _compute_loss(self, X, y, lmbd, beta):
+        diff = y - X @ beta
         if self.fit_intercept:
             beta, intercept = beta[: self.n_features], beta[self.n_features:]
             diff -= intercept
-
-        if self.X_test is not None:
-            test_loss = _compute_loss(
-                self.X_test, self.y_test, self.lmbd, beta
-            )
-        train_loss = _compute_loss(self.X, self.y, self.lmbd, beta)
-        return {"value": train_loss, "Test loss": test_loss}
+        return 0.5 * diff.dot(diff) + lmbd * 0.5 * beta @ beta
 
     def to_dict(self):
         return dict(
