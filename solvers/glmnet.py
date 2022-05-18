@@ -69,7 +69,7 @@ class Solver(BaseSolver):
         # no other way to force glmnet to solve for a prescribed lambda.
         fit_dict = {"lambda": self.lmbd / len(self.y)}
         self.glmnet_fit = self.glmnet(
-            self.X, self.y, intercept=False,
+            self.X, self.y, intercept=self.fit_intercept,
             alpha=0,
             standardize=False, maxit=maxit, thresh=thresh, **fit_dict)
 

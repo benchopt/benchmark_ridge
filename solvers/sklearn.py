@@ -39,10 +39,10 @@ class Solver(BaseSolver):
         else:
             self.ridge.max_iter = n_iter
             self.ridge.fit(self.X, self.y)
+            coef = self.ridge.coef_.flatten()
+            if self.fit_intercept:
+                coef = np.r_[coef, self.ridge.intercept_]
+            self.coef = coef
 
     def get_result(self):
-        coef = self.lasso.coef_.flatten()
-        if self.fit_intercept:
-            coef = np.r_[coef, self.lasso.intercept_]
-        self.coef = coef
         return self.coef

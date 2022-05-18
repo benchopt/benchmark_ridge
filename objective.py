@@ -3,14 +3,12 @@ import numpy as np
 from benchopt import BaseObjective
 
 
-
-
 class Objective(BaseObjective):
     name = "Ridge Regression"
 
     parameters = {
         "fit_intercept": [True, False],
-        "reg": [0.5, 0.1, 0.05],
+        'lmbd': [0.1]
     }
 
     def __init__(self, lmbd=0.1, fit_intercept=False):
@@ -30,7 +28,7 @@ class Objective(BaseObjective):
 
     def compute(self, beta):
         # compute residuals
-
+        test_loss = None
         if self.X_test is not None:
             test_loss = self._compute_loss(
                 self.X_test, self.y_test, self.lmbd, beta
@@ -39,9 +37,10 @@ class Objective(BaseObjective):
         return {"value": train_loss, "Test loss": test_loss}
 
     def _compute_loss(self, X, y, lmbd, beta):
-        diff = y - X @ beta
         if self.fit_intercept:
             beta, intercept = beta[: self.n_features], beta[self.n_features:]
+        diff = y - X @ beta
+        if self.fit_intercept:
             diff -= intercept
         return 0.5 * diff.dot(diff) + lmbd * 0.5 * beta @ beta
 

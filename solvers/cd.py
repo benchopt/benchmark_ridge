@@ -19,11 +19,14 @@ class Solver(BaseSolver):
     install_cmd = 'conda'
     requirements = ['numba']
 
-    parameters = {
-        'newton_step': [False, True],
-        }
+    def skip(self, X, y, lmbd, fit_intercept):
+        # XXX - not implemented but this should be quite easy
+        if fit_intercept:
+            return True, f"{self.name} does not handle fit_intercept"
 
-    def set_objective(self, X, y, lmbd):
+        return False, None
+
+    def set_objective(self, X, y, lmbd, fit_intercept):
         self.y, self.lmbd = y, lmbd
 
         if sparse.issparse(X):
@@ -44,16 +47,15 @@ class Solver(BaseSolver):
         return L
 
     def run(self, n_iter):
-        L = self._get_lipschitz_csts()
         if sparse.issparse(self.X):
+            L = np.array((self.X.multiply(self.X)).sum(axis=0)).squeeze()
             self.w = self.sparse_cd(
                 self.X.data, self.X.indices, self.X.indptr, self.y, self.lmbd,
-                L, n_iter, self.newton_step
+                L, n_iter
             )
         else:
-            self.w = self.cd(
-                self.X, self.y, self.lmbd, L, n_iter, self.newton_step
-            )
+            L = (self.X ** 2).sum(axis=0)
+            self.w = self.cd(self.X, self.y, self.lmbd, L, n_iter)
 
     @staticmethod
     @njit
