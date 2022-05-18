@@ -28,7 +28,7 @@ class Dataset(BaseDataset):
         rng = np.random.RandomState(self.random_state)
         beta = rng.randn(self.n_features)
 
-        X = rng.randn(self.n_samples, self.n_features) 
+        X = rng.randn(self.n_samples, self.n_features)
         y = X @ beta
 
         X_test = rng.randn(self.n_samples, self.n_features)
