@@ -1,17 +1,17 @@
 # Cache directories
+__cache__
 .pytest_cache
 __pycache__
-__cache__
 *.egg-info
 .coverage
 **/outputs
-joblib/
 
 # IDE specific folders
 .vscode
 
 # Config files
 benchopt.ini
+config.ini
 
 .DS_Store
 coverage.xml
