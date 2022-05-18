@@ -43,7 +43,6 @@ class Solver(BaseSolver):
         self.ridge.max_iter = n_iter
         self.ridge.fit(self.X, self.y)
 
-
     def get_result(self):
         beta = self.ridge.coef_.flatten()
         if self.fit_intercept:
