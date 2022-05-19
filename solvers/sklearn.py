@@ -23,14 +23,19 @@ class Solver(BaseSolver):
         '"Scikit-learn: Machine Learning in Python", J. Mach. Learn. Res., '
         'vol. 12, pp. 2825-283 (2011)'
     ]
+    parameters = {
+        "solver": ["svd", "cholesky", "lsqr", "sparse_cg", "saga"],
+    }
 
-    def set_objective(self, X, y, lmbd, fit_intercept):
-        self.X, self.y, self.lmbd = X, y, lmbd
-        self.fit_intercept = fit_intercept
+    def __init__(self, solver="svd"):
+        self.solver = solver
 
-        n_samples = self.X.shape[0]
-        self.ridge = Ridge(alpha=self.lmbd/n_samples,
-                           fit_intercept=fit_intercept, tol=0)
+    def set_objective(self, X, y, lmbd=1, fit_intercept=False):
+        self.X, self.y, self.fit_intercept = X, y, fit_intercept
+        self.ridge = Ridge(
+            fit_intercept=fit_intercept, alpha=lmbd, solver=self.solver,
+            tol=1e-10)
+
         warnings.filterwarnings('ignore', category=ConvergenceWarning)
 
     def run(self, n_iter):
