@@ -34,7 +34,7 @@ class Solver(BaseSolver):
         self.X, self.y, self.fit_intercept = X, y, fit_intercept
         self.ridge = Ridge(
             fit_intercept=fit_intercept, alpha=lmbd, solver=self.solver,
-            tol=1e-10)
+            tol=0)
 
         warnings.filterwarnings('ignore', category=ConvergenceWarning)
 
