@@ -11,7 +11,7 @@ class Solver(BaseSolver):
     # any parameter defined here is accessible as a class attribute
     parameters = {'use_acceleration': [False, True]}
     support_sparse = False
-    
+
     def skip(self, X, y, lmbd, fit_intercept):
         # XXX - not implemented but this should be quite easy
         if fit_intercept:
