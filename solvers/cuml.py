@@ -11,8 +11,11 @@ with safe_import_context() as import_ctx:
     from scipy import sparse
     import cudf
     import numpy as np
+    import cupy as cp
     import cupyx.scipy.sparse as cusparse
     from cuml.linear_model import Ridge
+
+# XXX TODO: add solver as parameter
 
 
 class Solver(BaseSolver):
@@ -24,16 +27,6 @@ class Solver(BaseSolver):
         f"nvidia::cudatoolkit={cuda_version}",
         "dask-sql",
     ] if cuda_version is not None else []
-
-    parameters = {
-        "solver": [
-            "eig",
-            "svd",
-            "cd",
-        ],
-    }
-
-    parameter_template = "{solver}"
 
     def set_objective(self, X, y, lmbd, fit_intercept):
         self.X, self.y, self.lmbd = X, y, lmbd
@@ -52,13 +45,21 @@ class Solver(BaseSolver):
         self.ridge = Ridge(
             fit_intercept=self.fit_intercept,
             alpha=self.lmbd / self.X.shape[0],
-            solver=self.solver,
             verbose=0,
         )
 
     def run(self, n_iter):
-        self.ridge.solver_model.max_iter = n_iter
+        self.ridge.max_iter = n_iter
         self.ridge.fit(self.X, self.y)
 
     def get_result(self):
-        return self.ridge.coef_.to_numpy().flatten()
+        if isinstance(self.ridge.coef_, cp.ndarray):
+            coef = self.ridge.coef_.get().flatten()
+            if self.ridge.fit_intercept:
+                coef = np.r_[coef, self.ridge.intercept_.get()]
+        else:
+            coef = self.ridge.coef_.to_numpy().flatten()
+            if self.ridge.fit_intercept:
+                coef = np.r_[coef, self.ridge.intercept_]
+
+        return coef.astype(np.float64)
