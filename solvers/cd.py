@@ -38,14 +38,6 @@ class Solver(BaseSolver):
         # Make sure we cache the numba compilation.
         self.run(1)
 
-    def _get_lipschitz_csts(self):
-        if sparse.issparse(self.X):
-            L = sparse.linalg.norm(self.X, axis=0)**2 / 4
-        else:
-            L = (self.X ** 2).sum(axis=0) / 4
-        L += self.lmbd
-        return L
-
     def run(self, n_iter):
         if sparse.issparse(self.X):
             L = np.array((self.X.multiply(self.X)).sum(axis=0)).squeeze()
@@ -68,7 +60,7 @@ class Solver(BaseSolver):
                 if L[j] == 0.:
                     continue
                 old = w[j]
-                w[j] = w[j] + (X[:, j] @ R - lmbd * w[j]) / L[j]
+                w[j] = w[j] + (X[:, j] @ R + lmbd * w[j]) / L[j]
                 diff = old - w[j]
                 if diff != 0:
                     R += diff * X[:, j]
@@ -89,7 +81,7 @@ class Solver(BaseSolver):
                 scal = 0.
                 for ind in range(start, end):
                     scal += X_data[ind] * R[X_indices[ind]]
-                w[j] = w[j] + (scal - lmbd * w[j]) / L[j]
+                w[j] = w[j] + (scal + lmbd * w[j]) / L[j]
                 diff = old - w[j]
                 if diff != 0:
                     for ind in range(start, end):
