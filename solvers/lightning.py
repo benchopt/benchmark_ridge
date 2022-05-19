@@ -6,8 +6,6 @@ with safe_import_context() as import_ctx:
     from lightning.regression import CDRegressor
 
 
-# TODO: lightning always fit an intercept
-#       it is thus not optimizing the same cost function
 class Solver(BaseSolver):
     name = 'Lightning'
 
@@ -25,6 +23,7 @@ class Solver(BaseSolver):
     ]
 
     def skip(self, X, y, lmbd, fit_intercept):
+        # lightning does not handle intercept properly (always set to zero)
         if fit_intercept:
             return True, f"{self.name} does not handle fit_intercept"
 
@@ -34,9 +33,9 @@ class Solver(BaseSolver):
 
         self.X, self.y, self.lmbd = X, y, lmbd
         self.fit_intercept = fit_intercept
-
+        print("Teste")
         self.ridge = CDRegressor(
-            loss='squared', penalty='l2', C=.6, alpha=self.lmbd,
+            loss='squared', penalty='l2', C=.5, alpha=self.lmbd,
             tol=0, permute=False, shrinking=False, warm_start=False)
 
     def run(self, n_iter):
