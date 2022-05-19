@@ -11,7 +11,7 @@ class Objective(BaseObjective):
         'lmbd': [0.5, 0.1, 0.01]
     }
 
-    def __init__(self, lmbd=0.1, fit_intercept=False):
+    def __init__(self, lmbd=1., fit_intercept=False):
         self.lmbd = lmbd
         self.fit_intercept = fit_intercept
 
@@ -37,12 +37,11 @@ class Objective(BaseObjective):
         return {"value": train_loss, "Test loss": test_loss}
 
     def _compute_loss(self, X, y, lmbd, beta):
+        c = 0
         if self.fit_intercept:
-            beta, intercept = beta[: self.n_features], beta[self.n_features:]
-        diff = y - X @ beta
-        if self.fit_intercept:
-            diff -= intercept
-        return 0.5 * diff.dot(diff) + lmbd * 0.5 * beta @ beta
+            beta, c = beta[:-1], beta[-1]
+        res = y - X @ beta - c
+        return .5 * res @ res + 0.5 * lmbd * beta @ beta
 
     def to_dict(self):
         return dict(
