@@ -1,3 +1,9 @@
+import numpy as np
+
+from benchopt import BaseDataset
+from benchopt.datasets.simulated import make_correlated_data
+
+
 class Dataset(BaseDataset):
 
     name = "Simulated"
