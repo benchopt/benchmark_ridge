@@ -33,7 +33,7 @@ class Solver(BaseSolver):
             fit_intercept=self.fit_intercept,
             regularizer=self.lmbd,
             penalty="l2",
-            tol=1e-12,
+            tol=0,
             dual=False,
             use_gpu=self.gpu,
         )
