@@ -33,9 +33,8 @@ class Solver(BaseSolver):
 
         self.X, self.y, self.lmbd = X, y, lmbd
         self.fit_intercept = fit_intercept
-
         self.ridge = CDRegressor(
-            loss='squared', penalty='l2', C=.5, alpha=self.lmbd / 2,
+            loss='squared', penalty='l2', C=.5, alpha=self.lmbd,
             tol=0, permute=False, shrinking=False, warm_start=False)
 
     def run(self, n_iter):
