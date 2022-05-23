@@ -1,10 +1,12 @@
 objective:
-  - Lasso Regression[fit_intercept=False,reg=[0.1, 0.01]]
+  - Ridge Regression[fit_intercept=False,lmbd=[0.1, 0.01]]
 
 dataset: # dataset to run benchmark on
-  - libsvm[rcv1.binary]
+  - simulated
 
 solver: # list of example solvers to do benchmark
+  - sklearn
+  - glmnet
   - snapml
 
 # note: use more repetitions to have quantiles on the plot

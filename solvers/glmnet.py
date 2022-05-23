@@ -67,7 +67,7 @@ class Solver(BaseSolver):
         # early stops the path based on an uncontrollable criterion. Fitting
         # with a single lambda may be suboptimal if it is small, but there is
         # no other way to force glmnet to solve for a prescribed lambda.
-        fit_dict = {"lambda": self.lmbd / len(self.y)}
+        fit_dict = {"lambda": np.std(self.y) * self.lmbd / len(self.y)}
         self.glmnet_fit = self.glmnet(
             self.X, self.y, intercept=self.fit_intercept,
             alpha=0,
