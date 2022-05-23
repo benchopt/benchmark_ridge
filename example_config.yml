@@ -1,13 +1,12 @@
 objective:
-  - Ridge Regression[fit_intercept=False,lmbd=[0.1, 0.01]]
+  - Ridge Regression[fit_intercept=False,lmbd=[0.1]]
 
 dataset: # dataset to run benchmark on
-  - simulated
+  - Simulated[n_features=1000,n_samples=500,rho=0]
 
 solver: # list of example solvers to do benchmark
   - sklearn
-  - glmnet
-  - snapml
+  - gd
 
 # note: use more repetitions to have quantiles on the plot
 n-repetitions: 1
