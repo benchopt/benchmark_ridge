@@ -17,4 +17,4 @@ solver:
   - lightning
   - snapml
 
-output: ridge
+output: ridge_neurips
