@@ -1,0 +1,20 @@
+objective:
+  - Ridge Regression[fit_intercept=False,lmbd=1]
+  - Ridge Regression[fit_intercept=False,lmbd=0.1]
+  - Ridge Regression[fit_intercept=False,lmbd=0.01]
+dataset:
+  - libsvm[dataset=bodyfat]
+  - libsvm[dataset=leukemia]
+  - libsvm[dataset=gisette]
+  - simulated
+n-repetitions: 5
+n-jobs: 12
+timeout: 3000
+solver:
+  - cd
+  - gd
+  - sklearn
+  - lightning
+  - snapml
+
+output: ridge
