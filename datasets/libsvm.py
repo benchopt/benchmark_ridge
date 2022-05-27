@@ -16,7 +16,7 @@ class Dataset(BaseDataset):
     }
 
     install_cmd = 'conda'
-    requirements = ['pip:libsvmdata']
+    requirements = ['libsvmdata']
 
     def __init__(self, dataset="bodyfat"):
         self.dataset = dataset

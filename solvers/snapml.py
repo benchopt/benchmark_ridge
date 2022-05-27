@@ -1,7 +1,6 @@
 from benchopt import BaseSolver, safe_import_context
 from benchopt.utils.sys_info import get_cuda_version
 
-
 with safe_import_context() as import_ctx:
     from snapml import LinearRegression
     import numpy as np
@@ -34,7 +33,7 @@ class Solver(BaseSolver):
             fit_intercept=self.fit_intercept,
             regularizer=self.lmbd,
             penalty="l2",
-            tol=1e-12,
+            tol=0,
             dual=False,
             use_gpu=self.gpu,
         )
