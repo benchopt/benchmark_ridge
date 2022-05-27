@@ -1,13 +1,20 @@
 import re
-import os
 import itertools
 import numpy as np
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
-from celer.plot_utils import configure_plt
+import matplotlib as mpl
 
-configure_plt()
+
+usetex = mpl.checkdep_usetex(True)
+params = {
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Computer Modern Roman"],
+    "text.usetex": usetex,
+}
+mpl.rcParams.update(params)
+
 
 # matplotlib style config
 titlesize = 22
@@ -194,10 +201,13 @@ for figname, idx_rows, idx_cols in zip(fignames, IDX_ROWS, IDX_COLUMNS):
 
     # take first ax, more likely to have all solvers converging
     ax = axarr[0, 0]
-    lines_ordered = list(itertools.chain(*[ax.lines[i::n_col] for i in range(n_col)]))
+    lines_ordered = list(itertools.chain(
+        *[ax.lines[i::n_col] for i in range(n_col)]
+    ))
     legend = ax2.legend(
-        lines_ordered, [line.get_label() for line in lines_ordered], ncol=n_col,
-        loc="upper center")
+        lines_ordered, [line.get_label() for line in lines_ordered],
+        ncol=n_col, loc="upper center"
+    )
     leg_fig.canvas.draw()
     leg_fig.tight_layout()
     width = legend.get_window_extent().width
