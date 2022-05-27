@@ -8,7 +8,6 @@ dataset:
   - libsvm[dataset=gisette]
   - simulated
 n-repetitions: 5
-n-jobs: 12
 timeout: 3000
 solver:
   - cd
