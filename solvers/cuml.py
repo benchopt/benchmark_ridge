@@ -51,7 +51,7 @@ class Solver(BaseSolver):
 
         self.ridge = Ridge(
             fit_intercept=self.fit_intercept,
-            alpha=self.lmbd / self.X.shape[0],
+            alpha=self.lmbd,
             tol=1e-15,
             solver=self.solver,
             verbose=0,
