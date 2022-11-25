@@ -3,19 +3,16 @@ Benchmark repository for Ridge
 
 |Build Status| |Python 3.6+|
 
-BenchOpt is a package to simplify and make more transparent and
+Benchopt is a package to simplify and make more transparent and
 reproducible the comparisons of optimization algorithms.
 The Ridge consists in solving the following program:
 
-.. math::
+$$\\min_w\\frac{1}{2 n} \\Vert y - Xw \\Vert_2^2 + \\frac{\\lambda}{2} \\Vert w \\Vert_2^2$$
 
-    \min_w \frac{1}{2} \|y - Xw\|^2_2 + \frac{1}{2}\lambda \|w\|_2^2
+where $n$ (or ``n_samples``) stands for the number of samples, $p$ (or ``n_features``) stands for the number of features and
 
-where n (or n_samples) stands for the number of samples, p (or n_features) stands for the number of features and
 
-.. math::
-
- y \in \mathbb{R}^n, X = [x_1^\top, \dots, x_n^\top]^\top \in \mathbb{R}^{n \times p}
+$$y \\in \\mathbb{R}^n, \\ X \\in \\mathbb{R}^{n \\times p}$$
 
 Install
 -------
@@ -42,24 +39,24 @@ Alternatively, one can use the command line interface to select which problems, 
 	$ benchopt run ./benchmark_ridge -s sklearn -d leukemia --max-runs 10 --n-repetitions 10
 
 
-Use `benchopt run -h` for more details about these options, or visit https://benchopt.github.io/api.html.
+Use ``benchopt run -h`` for more details about these options, or visit https://benchopt.github.io/api.html.
 
 Troubleshooting
 ---------------
 
-If you run into some errors when running the examples present in this Readme, try installing the development version of `benchopt`:
+If you run into some errors when running the examples present in this Readme, try installing the development version of ``benchopt``:
 
 .. code-block::
 
   $ pip install -U git+https://github.com/benchopt/benchopt
 
-If issues persist, you can also try running the benchmark in local mode with the `-l` option, e.g.:
+If issues persist, you can also try running the benchmark in local mode with the ``-l`` option, e.g.:
 
 .. code-block::
 
   $ benchopt run . -l -s sklearn -d leukemia --max-runs 10 --n-repetitions 10
 
-Note that in this case, only solvers which dependencies are installed in the current env will be run.
+Note that in this case, only solvers whose dependencies are installed in the current env will be run.
 
 .. |Build Status| image:: https://github.com/benchopt/benchmark_ridge/workflows/Tests/badge.svg
    :target: https://github.com/benchopt/benchmark_ridge/actions
