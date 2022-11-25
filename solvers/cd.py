@@ -89,7 +89,7 @@ class Solver(BaseSolver):
                 scal = 0.
                 for ind in range(start, end):
                     scal += X_data[ind] * R[X_indices[ind]]
-                w[j] = w[j] + (scal  - lmbd * w[j]) / L[j]
+                w[j] = w[j] + (scal - lmbd * w[j]) / L[j]
                 diff = old - w[j]
                 if diff != 0:
                     for ind in range(start, end):
