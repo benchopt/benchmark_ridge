@@ -7,7 +7,7 @@ Benchopt is a package to simplify and make more transparent and
 reproducible the comparisons of optimization algorithms.
 The Ridge consists in solving the following program:
 
-$$\\min_w\\frac{1}{2 n} \\Vert y - Xw \\Vert_2^2 + \\frac{\\lambda}{2} \\Vert w \\Vert_2^2$$
+$$\\min_w\\frac{1}{2} \\Vert y - Xw \\Vert_2^2 + \\frac{\\lambda}{2} \\Vert w \\Vert_2^2$$
 
 where $n$ (or ``n_samples``) stands for the number of samples, $p$ (or ``n_features``) stands for the number of features and
 
