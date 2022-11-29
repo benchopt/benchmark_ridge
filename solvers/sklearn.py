@@ -28,8 +28,7 @@ class Solver(BaseSolver):
         self.X, self.y, self.lmbd = X, y, lmbd
         self.fit_intercept = fit_intercept
 
-        n_samples = self.X.shape[0]
-        self.ridge = Ridge(alpha=self.lmbd/n_samples,
+        self.ridge = Ridge(alpha=self.lmbd,
                            fit_intercept=fit_intercept, tol=0)
         warnings.filterwarnings('ignore', category=ConvergenceWarning)
 

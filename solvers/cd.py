@@ -40,9 +40,9 @@ class Solver(BaseSolver):
 
     def _get_lipschitz_csts(self):
         if sparse.issparse(self.X):
-            L = sparse.linalg.norm(self.X, axis=0)**2 / 4
+            L = sparse.linalg.norm(self.X, axis=0)**2
         else:
-            L = (self.X ** 2).sum(axis=0) / 4
+            L = (self.X ** 2).sum(axis=0)
         L += self.lmbd
         return L
 
@@ -68,7 +68,7 @@ class Solver(BaseSolver):
                 if L[j] == 0.:
                     continue
                 old = w[j]
-                w[j] = w[j] + X[:, j] @ R / L[j] + lmbd * w[j]
+                w[j] = w[j] + (X[:, j] @ R - lmbd * w[j]) / L[j]
                 diff = old - w[j]
                 if diff != 0:
                     R += diff * X[:, j]
@@ -89,7 +89,7 @@ class Solver(BaseSolver):
                 scal = 0.
                 for ind in range(start, end):
                     scal += X_data[ind] * R[X_indices[ind]]
-                w[j] = w[j] + scal / L[j] + lmbd * w[j]
+                w[j] = w[j] + (scal - lmbd * w[j]) / L[j]
                 diff = old - w[j]
                 if diff != 0:
                     for ind in range(start, end):
