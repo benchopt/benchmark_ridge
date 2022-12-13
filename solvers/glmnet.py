@@ -12,25 +12,29 @@ with safe_import_context() as import_ctx:
 
     # Setup the system to allow rpy2 running
     numpy2ri.activate()
-    import_rpackages('glmnet')
+    import_rpackages("glmnet")
 
 
 class Solver(BaseSolver):
+    """
+    Warning: glmnet currently produces discrepancies (see issue #2)
+    """
+
     name = "glmnet"
 
-    install_cmd = 'conda'
-    requirements = ['r-base', 'rpy2', 'r-glmnet', 'r-matrix']
+    install_cmd = "conda"
+    requirements = ["r-base", "rpy2", "r-glmnet", "r-matrix"]
     references = [
         'J. Friedman, T. J. Hastie and R. Tibshirani, "Regularization paths '
         'for generalized linear models via coordinate descent", '
-        'J. Stat. Softw., vol. 33, no. 1, pp. 1-22, NIH Public Access (2010)'
+        "J. Stat. Softw., vol. 33, no. 1, pp. 1-22, NIH Public Access (2010)"
     ]
     support_sparse = True
 
     # We use the tolerance strategy because if maxit is too low and glmnet
     # convergence check fails, it returns an empty model
     stopping_criterion = SufficientProgressCriterion(
-        patience=7, eps=1e-38, strategy='tolerance'
+        patience=7, eps=1e-38, strategy="tolerance"
     )
 
     def set_objective(self, X, y, lmbd, fit_intercept):
@@ -41,13 +45,13 @@ class Solver(BaseSolver):
                 i=robjects.IntVector(X.row + 1),
                 j=robjects.IntVector(X.col + 1),
                 x=robjects.FloatVector(X.data),
-                dims=robjects.IntVector(X.shape)
+                dims=robjects.IntVector(X.shape),
             )
         else:
             self.X = X
         self.fit_intercept = fit_intercept
         self.y, self.lmbd = y, lmbd
-        self.glmnet = robjects.r['glmnet']
+        self.glmnet = robjects.r["glmnet"]
 
     def run(self, tol):
         # Even if maxit=0, glmnet can return non zero coefficients. To get the
@@ -69,13 +73,19 @@ class Solver(BaseSolver):
         # no other way to force glmnet to solve for a prescribed lambda.
         fit_dict = {"lambda": self.lmbd / len(self.y)}
         self.glmnet_fit = self.glmnet(
-            self.X, self.y, intercept=self.fit_intercept,
+            self.X,
+            self.y,
+            intercept=self.fit_intercept,
             alpha=0,
-            standardize=False, maxit=maxit, thresh=thresh, **fit_dict)
+            standardize=False,
+            maxit=maxit,
+            thresh=thresh,
+            **fit_dict,
+        )
 
     def get_result(self):
         results = dict(zip(self.glmnet_fit.names, list(self.glmnet_fit)))
-        as_matrix = robjects.r['as']
+        as_matrix = robjects.r["as"]
         coefs = np.array(as_matrix(results["beta"], "matrix"))
         beta = coefs.flatten()
         return np.r_[beta, results["a0"]] if self.fit_intercept else beta

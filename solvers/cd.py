@@ -38,14 +38,6 @@ class Solver(BaseSolver):
         # Make sure we cache the numba compilation.
         self.run(1)
 
-    def _get_lipschitz_csts(self):
-        if sparse.issparse(self.X):
-            L = sparse.linalg.norm(self.X, axis=0)**2
-        else:
-            L = (self.X ** 2).sum(axis=0)
-        L += self.lmbd
-        return L
-
     def run(self, n_iter):
         if sparse.issparse(self.X):
             L = np.array((self.X.multiply(self.X)).sum(axis=0)).squeeze()

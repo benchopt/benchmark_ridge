@@ -10,3 +10,6 @@ def check_test_solver_install(solver_class):
         cuda_version = get_cuda_version()
         if cuda_version is None:
             pytest.xfail("Cuml needs a working GPU hardware.")
+
+    if "glmnet" in solver_class.name.lower():
+        pytest.xfail("glmnet produces discrepancies (see issue #2).")
