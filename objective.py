@@ -4,6 +4,7 @@ from benchopt import BaseObjective
 
 
 class Objective(BaseObjective):
+    min_benchopt_version = "1.3"
     name = "Ridge Regression"
 
     parameters = {
@@ -44,7 +45,7 @@ class Objective(BaseObjective):
             diff -= intercept
         return 0.5 * diff.dot(diff) + lmbd * 0.5 * beta @ beta
 
-    def to_dict(self):
+    def get_objective(self):
         return dict(
             X=self.X,
             y=self.y,
