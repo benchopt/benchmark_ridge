@@ -47,4 +47,4 @@ class Solver(BaseSolver):
         beta = self.ridge.coef_.flatten()
         if self.fit_intercept:
             beta = np.r_[beta, self.ridge.intercept_]
-        return beta
+        return dict(beta=beta)
