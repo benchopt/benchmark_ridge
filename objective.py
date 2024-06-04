@@ -4,7 +4,7 @@ from benchopt import BaseObjective
 
 
 class Objective(BaseObjective):
-    min_benchopt_version = "1.3"
+    min_benchopt_version = "1.4"
     name = "Ridge Regression"
 
     parameters = {
@@ -21,13 +21,13 @@ class Objective(BaseObjective):
         self.X_test, self.y_test = X_test, y_test
         self.n_features = self.X.shape[1]
 
-    def get_one_solution(self):
+    def get_one_result(self):
         n_features = self.n_features
         if self.fit_intercept:
             n_features += 1
-        return np.zeros(n_features)
+        return dict(beta=np.zeros(n_features))
 
-    def compute(self, beta):
+    def evaluate_result(self, beta):
         # compute residuals
         test_loss = None
         if self.X_test is not None:

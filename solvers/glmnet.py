@@ -88,4 +88,5 @@ class Solver(BaseSolver):
         as_matrix = robjects.r["as"]
         coefs = np.array(as_matrix(results["beta"], "matrix"))
         beta = coefs.flatten()
-        return np.r_[beta, results["a0"]] if self.fit_intercept else beta
+        beta = np.r_[beta, results["a0"]] if self.fit_intercept else beta
+        return dict(beta=beta)
