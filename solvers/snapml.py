@@ -11,7 +11,7 @@ class Solver(BaseSolver):
     name = "snapml"
 
     install_cmd = "conda"
-    requirements = ["pip:snapml", "pip:numpy<2"]
+    requirements = ["numpy==1.26.0", "pip:snapml"]
 
     parameters = {"gpu": [False, True]}
     references = [
