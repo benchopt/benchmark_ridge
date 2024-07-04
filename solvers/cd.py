@@ -20,7 +20,7 @@ class Solver(BaseSolver):
     requirements = ['numba']
 
     def skip(self, X, y, lmbd, fit_intercept):
-        # XXX - not implemented but this should be quite easy
+        # XXX - not implemented but this should be quite easy.
         if fit_intercept:
             return True, f"{self.name} does not handle fit_intercept"
 
