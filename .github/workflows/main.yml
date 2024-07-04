@@ -13,7 +13,7 @@ on:
   schedule:
     # Run wednesday at 7:42am UTC.
     - cron:  '42 8 * * wed'
-
+#testing with forked YAML
 jobs:
   benchopt_dev:
     uses: wassimmazouz/template_benchmark/.github/workflows/test_benchmarks.yml@adding-libomp-install
