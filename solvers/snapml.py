@@ -11,7 +11,12 @@ class Solver(BaseSolver):
     name = "snapml"
 
     install_cmd = "conda"
-    requirements = ["numpy==1.26.0", "pip:snapml"]
+
+    """
+    Snap ML wheels are built with numpy 1.*, they are not compatible with
+    numpy>=2. Awaiting compatible wheels, numpy<2 is required for this solver.
+    """
+    requirements = ["numpy'<2'", "pip:snapml"]
 
     parameters = {"gpu": [False, True]}
     references = [
