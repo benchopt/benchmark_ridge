@@ -16,7 +16,8 @@ if platform.system() == 'Darwin':
     subprocess.run(
         [
             'arch', '-x86_64', '/bin/bash', '-c',
-            "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/"
+            "HEAD/install.sh)"
         ],
         check=True,
         shell=True
