@@ -16,8 +16,7 @@ if platform.system() == 'Darwin':
     subprocess.run(
         [
             'arch', '-x86_64', '/bin/bash', '-c',
-            '"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install"'
-            '"/HEAD/install.sh)"'
+            "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         ],
         check=True,
         shell=True
@@ -25,9 +24,7 @@ if platform.system() == 'Darwin':
 
     # Add Homebrew to the shell environment
     homebrew_shellenv = subprocess.run(
-        [
-            '/usr/local/bin/brew', 'shellenv'
-        ],
+        '/usr/local/bin/brew shellenv',
         check=True,
         capture_output=True,
         text=True,
@@ -36,14 +33,14 @@ if platform.system() == 'Darwin':
     with open(os.path.expanduser('~/.profile'), 'a') as profile_file:
         profile_file.write(f'eval "$({homebrew_shellenv})"\n')
     subprocess.run(
-        ['eval', f'"$({homebrew_shellenv})"'],
+        f'eval "$({homebrew_shellenv})"',
         check=True,
         shell=True
     )
 
     # Install libomp
     subprocess.run(
-        ['arch', '-x86_64', '/usr/local/bin/brew', 'install', 'libomp'],
+        'arch -x86_64 /usr/local/bin/brew install libomp',
         check=True,
         shell=True
     )
