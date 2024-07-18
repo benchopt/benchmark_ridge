@@ -14,6 +14,10 @@ class Solver(BaseSolver):
 
     # Snap ML wheels are built with numpy 1.*, they are not compatible with
     # numpy>=2. TODO : upgrade numpy when compatible wheels are released.
+
+    # libomp x86_64 and Homebrew are needed for snapML to work correctly on
+    # MacOS. Please check this tutorial to install SnapML correctly:
+    # https://github.com/benchopt/benchmark_ridge/blob/tutorials/snapml_macos.rst
     requirements = ["numpy'<2'", "pip:snapml"]
 
     parameters = {"gpu": [False, True]}
