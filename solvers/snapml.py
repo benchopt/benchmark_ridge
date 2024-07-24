@@ -18,7 +18,7 @@ class Solver(BaseSolver):
     # libomp x86_64 and Homebrew are needed for snapML to work correctly on
     # MacOS. Please check this tutorial to install SnapML correctly:
     # https://github.com/benchopt/benchmark_ridge/blob/tutorials/snapml_macos.rst
-    requirements = ["numpy'<2'", "pip:snapml"]
+    requirements = ["numpy'<2'", "pip::snapml"]
 
     parameters = {"gpu": [False, True]}
     references = [
